@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сердечки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8d7da; /* Розовый фон */
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Balsamiq Sans', sans-serif;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .message {
+            position: absolute;
+            font-size: 6em; /* Увеличиваем размер шрифта для сообщения */
+            color: #d5006d; /* Цвет текста */
+            text-align: center;
+            width: 100%; /* Ширина на всю страницу */
+            top: 50%; /* Центрируем по вертикали */
+            left: 50%; /* Центрируем по горизонтали */
+            transform: translate(-50%, -50%); /* Центрируем текст */
+            display: none; /* Скрываем сообщения по умолчанию */
+            opacity: 0; /* Начальная непрозрачность */
+            transition: opacity 1s ease; /* Плавный переход для текста */
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px; /* Отступ от нижней части */
+            left: 50%; /* Центрируем по горизонтали */
+            transform: translateX(-50%); /* Центрируем текст */
+            font-size: 5em; /* Увеличиваем размер шрифта для нижней надписи */
+            color: #d5006d; /* Цвет текста */
+        }
+        button {
+            position: absolute;
+            bottom: 20px; /* Отступ от нижней части */
+            right: 20px; /* Отступ от правого края */
+            font-size: 2em; /* Размер шрифта для кнопки */
+            padding: 10px 20px; /* Отступы для кнопки */
+            background-color: #ff69b4; /* Цвет кнопки */
+            color: white; /* Цвет текста на кнопке */
+            border: none; /* Убираем рамку */
+            border-radius: 10px; /* Закругленные углы */
+            cursor: pointer; /* Курсор при наведении */
+            transition: background-color 0.3s; /* Плавный переход цвета кнопки */
+            display: none; /* Скрываем кнопку по умолчанию */
+        }
+        button:hover {
+            background-color: #ff1493; /* Темнее розовый при наведении */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="heartCanvas"></canvas>
+    <div class="message" id="message"></div>
+    <div class="footer">Потапай 40 раз ❤️</div> <!-- Надпись внизу страницы -->
+    
+    <!-- Кнопка для перехода на следующую страницу -->
+    <button id="nextPageButton">Далее</button>
+
+    <script>
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let clickCount = 0;
+        const hearts = [];
+
+        // Функция для рисования пустого сердца (только обводка)
+        function drawEmptyHeart(x, y, scale) {
+            ctx.strokeStyle = '#d5006d'; // Цвет обводки
+            ctx.lineWidth = 5; // Толщина линии
+            ctx.beginPath();
+            const points = 100; // Количество точек для рисования
+
+            for (let i = 0; i <= points; i++) {
+                const angle = (i / points) * Math.PI * 2; // Угол для каждой точки
+                const heartX = x + scale * (16 * Math.sin(angle) ** 3);
+                const heartY = y - scale * (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+
+                if (i === 0) {
+                    ctx.moveTo(heartX, heartY); // Начинаем с первой точки
+                } else {
+                    ctx.lineTo(heartX, heartY); // Рисуем линию к следующей точке
+                }
+            }
+
+            ctx.closePath();
+            ctx.stroke(); // Рисуем обводку
+        }
+
+        // Функция для анимации сердечек
+        function animateHearts() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Очищаем канвас
+            hearts.forEach((heart, index) => {
+                heart.y -= 2; // Поднимаем сердце
+                heart.alpha -= 0.02; // Уменьшаем прозрачность
+                drawEmptyHeart(heart.x, heart.y, heart.scale);
+                if (heart.alpha <= 0) {
+                    hearts.splice(index, 1); // Удаляем сердце, если оно исчезло
+                }
+            });
+            requestAnimationFrame(animateHearts); // Запускаем следующую анимацию
+        }
+
+        // Функция для обработки нажатий
+        function handleClick(event) {
+            clickCount++;
+            const x = event.clientX;
+            const y = event.clientY;
+
+            hearts.push({ x: x, y: y, scale: 10, alpha: 1 }); // Добавляем новое сердце
+
+            if (clickCount === 10) {
+                showMessage("I LOVE UUU <3", "#d5006d"); // Темно-розовый цвет
+            } else if (clickCount === 20) {
+                showMessage("I LUV U SOOOO MUCH", "#d5006d"); // Темно-розовый цвет
+            } else if (clickCount === 30) {
+                showMessage("I MISS U =(", "#d5006d"); // Темно-розовый цвет
+            } else if (clickCount === 40) {
+                showMessage("HAPPY VALENTINE'S DAY SWEETIE", "#d5006d"); // Темно-розовый цвет
+                document.getElementById('nextPageButton').style.display = 'block'; // Показываем кнопку
+            }
+        }
+
+        // Функция для отображения сообщения
+        function showMessage(text, color) {
+            const messageElement = document.getElementById('message');
+            messageElement.innerText = text;
+            messageElement.style.color = color; // Устанавливаем цвет текста
+            messageElement.style.display = 'block'; // Показываем сообщение
+            messageElement.style.opacity = 1; // Устанавливаем полную непрозрачность
+
+            // Рисуем пустое сердце вокруг текста
+            drawEmptyHeart(window.innerWidth / 2, window.innerHeight / 2, 100); // Большое сердце
+
+            // Скрываем сообщение через 3 секунды
+            setTimeout(() => {
+                messageElement.style.opacity = 0; // Уменьшаем непрозрачность
+                setTimeout(() => {
+                    messageElement.style.display = 'none'; // Скрываем сообщение
+                }, 1000); // Ждем, пока анимация исчезновения завершится
+            }, 3000);
+        }
+
+        // Добавляем обработчик события нажатия
+        canvas.addEventListener('click', handleClick);
+        animateHearts(); // Запускаем анимацию сердечек
+
+        // Обработчик события для кнопки перехода на следующую страницу
+        document.getElementById('nextPageButton').onclick = function() {
+            window.location.href = 'nextPage.html'; // Замените на URL вашей следующей страницы
+        };
+    </script>
+</body>
+</html>

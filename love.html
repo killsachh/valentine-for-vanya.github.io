@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Я тоже тебя люблю!!!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8d7da; /* Нежный фон */
+            color: #721c24; /* Цвет текста */
+            text-align: center; /* Центрирование текста и изображений */
+            font-family: 'Balsamiq Sans', sans-serif;
+            margin-top: 20%;
+            overflow: hidden; /* Скрыть прокрутку */
+            position: relative; /* Для позиционирования изображений */
+        }
+        img {
+            max-width: 80%; /* Максимальная ширина основного изображения */
+            width: 600px;
+            height: auto; /* Автоматическая высота */
+            border-radius: 10px; /* Закругленные углы */
+            margin-bottom: 20px; /* Отступ снизу для основного изображения */
+            display: block; /* Блочный элемент для центрирования */
+            margin-left: auto; /* Автоматические отступы слева */
+            margin-right: auto; /* Автоматические отступы справа */
+            opacity: 0; /* Начальная непрозрачность */
+            transform: translateY(-20px); /* Начальная позиция */
+            animation: fadeInUp 1s forwards; /* Анимация появления */
+            animation-delay: 0.5s; /* Задержка перед началом анимации */
+        }
+        h1 {
+            opacity: 0; /* Начальная непрозрачность */
+            transform: translateY(-20px); /* Начальная позиция */
+            animation: fadeInUp 1s forwards; /* Анимация появления */
+            animation-delay: 0.3s; /* Задержка перед началом анимации */
+            margin-top: -10%;
+            font-size: 3em;
+            font-family: 'Balsamiq Sans', sans-serif;
+        }
+        button {
+            font-size: 1.5em;
+            font-family: 'Pattaya';
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px; /* Увеличенное значение для закругления */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background-color: #ff69b4; /* Розовый цвет кнопки */
+            color: white; /* Цвет текста на кнопке */
+            margin: 10px; /* Отступ между кнопками */
+            opacity: 0; /* Начальная непрозрачность */
+            transform: translateY(-20px); /* Начальная позиция */
+            animation: fadeInUp 1s forwards; /* Анимация появления */
+            animation-delay: 0.7s; /* Задержка перед началом анимации */
+        }
+        button:hover {
+            background-color: #ff1493; /* Темнее розовый при наведении */
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1; /* Конечная непрозрачность */
+                transform: translateY(0); /* Конечная позиция */
+            }
+        }
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: float 5s forwards;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+        .side-image {
+            position: absolute; /* Абсолютное позиционирование */
+            width: 350px; /* Увеличенная ширина изображения */
+            opacity: 0; /* Начальная непрозрачность */
+            animation: slideIn 3s forwards; /* Анимация появления */
+            margin-bottom: 100px; /* Отступ между изображениями */
+        }
+        @keyframes slideIn {
+            0% {
+                opacity: 0; /* Начальная непрозрачность */
+                transform: translateX(-100%); /* Начальная позиция (слева) */
+            }
+            100% {
+                opacity: 1; /* Конечная непрозрачность */
+                transform: translateX(0); /* Конечная позиция */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Я тоже тебя люблю!</h1>
+    <img src="gifka.gif" alt="Любовь"> <!-- Замените на ваше основное изображение -->
+
+    <!-- Кнопка для воспроизведения/остановки аудио под изображением -->
+    <button id="play-pause">Нажми</button>
+
+    <!-- Кнопка для перехода на третью страницу -->
+    <button id="next-page">Далее</button>
+
+    <!-- Добавление аудио -->
+    <audio id="background-audio">
+        <source src="audio.mp3" type="audio/mpeg"> <!-- Замените на имя вашего аудиофайла -->
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <script>
+        const audio = document.getElementById('background-audio');
+        const playPauseButton = document.getElementById('play-pause');
+        const nextPageButton = document.getElementById('next-page');
+
+        // Функция для воспроизведения/остановки аудио
+        playPauseButton.onclick = function() {
+            if (audio.paused) {
+                audio.play();
+                playPauseButton.innerText = "Остановить =(";
+            } else {
+                audio.pause();
+                playPauseButton.innerText = "Нажми <3";
+            }
+        };
+
+        // Переход на третью страницу
+        nextPageButton.onclick = function() {
+            window.location.href = 'third.html'; // Путь к вашей третьей странице
+        };
+
+        // Функция для добавления изображений по бокам
+        function addSideImages() {
+            const imageUrls = [
+                '1.gif', // Замените на ваши изображения
+                '2.gif',
+                '3.gif',
+                '4.gif',
+                '5.gif',
+                '6.gif'
+            ];
+
+            imageUrls.forEach((url, index) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = 'side-image';
+
+                // Позиционирование изображений по бокам
+                if (index < 3) {
+                    img.style.left = '100px'; // Левый край
+                    img.style.top = `${(index * 400) + -250}px`; // Расположение по вертикали с отступом
+                    img.style.animationDelay = `${index * 0.2}s`; // Задержка анимации
+                } else {
+                    img.style.right = '100px'; // Правый край
+                    img.style.top = `${((index - 3) * 400) + -200}px`; // Расположение по вертикали с отступом
+                    img.style.animationDelay = `${(index - 3) * 0.2}s`; // Задержка анимации
+                }
+
+                document.body.appendChild(img);
+            });
+        }
+
+        // Добавляем изображения по бокам при загрузке страницы
+        window.onload = function() {
+            addSideImages();
+            // Создание сердечек каждые 500 мс
+            setInterval(createHeart, 300);
+        };
+
+        // Функция для создания сердечек
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            document.body.appendChild(heart);
+
+            // Позиционирование сердечка
+            heart.style.left = Math.random() * 100 + 'vw'; // Случайная позиция по горизонтали
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Случайная продолжительность анимации
+
+            // Удаление сердечка после анимации
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+    </script>
+</body>
+</html>
