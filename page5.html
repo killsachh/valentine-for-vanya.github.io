@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница 5</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=DynaPuff:wght@400..700&family=Pattaya&family=Sonsie+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=DynaPuff:wght@400..700&family=Marck+Script&family=Pattaya&family=Sonsie+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #f8d7da;
+            color: #ff69b4;
+            font-family: 'Marck Script', sans-serif;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+            background: linear-gradient(270deg, #f0d8e4, #ffe2f1, #ffb2e2); /* Анимированный градиентный фон */
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+                1px 1px 0px rgb(243, 200, 221),
+                -4px -1px 0px white,
+                1px -1px 0px white,
+                -1px 1px 0px rgb(231, 158, 186); 
+   
+        }
+        @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+        }
+        h1 {
+            font-size: 3em;
+            margin-top: 20px;
+            font-family: 'Sonsie One', sans-serif;
+            text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+        10px 1px 0px white,
+        -1px -1px 0px white,
+        1px -1px 0px white,
+        -1px 1px 0px white;
+            
+        }
+        img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 100px;
+            margin: 20px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 450px;
+            box-shadow: 0 4px 15px rgba(219, 30, 125, 0.5);
+        }
+        button {
+            font-size: 1.5em;
+            margin: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 200px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            background-color: #ff68b6;
+            color: white;
+            font-family: 'Marck Script', sans-serif;
+            box-shadow: 0 4px 15px rgba(219, 30, 125, 0.5);
+            width: 250px;
+            height: 50px;
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(219, 30, 125, 0.5);
+        }
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: float 5s forwards;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>"Now every February, you'll be my valentine, valentine"</h1>
+    <img src="dance.gif" alt="Романтическое изображение">
+    
+    <button id="audioButton">Включить аудио</button>
+    <button id="nextButton">Далее</button>
+
+    <audio id="audio" src="audio_perry.mp3" preload="auto"></audio>
+
+    <script>
+        
+        document.body.style.opacity = 1;
+
+        const audio = document.getElementById('audio');
+        const audioButton = document.getElementById('audioButton');
+        const nextButton = document.getElementById('nextButton');
+
+        audioButton.onclick = function() {
+            if (audio.paused) {
+                audio.play();
+                audioButton.innerText = "Выключить аудио =(";
+            } else {
+                audio.pause();
+                audioButton.innerText = "Включить аудио";
+            }
+        };
+
+        nextButton.onclick = function() {
+            
+            window.location.href = 'DNAheart.html';
+        };
+
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            document.body.appendChild(heart);
+
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '0';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+
+            
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+       
+        setInterval(createHeart, 100);
+    </script>
+</body>
+</html>

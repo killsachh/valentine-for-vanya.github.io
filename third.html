@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимированный фон с сердечками и таймером</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=DynaPuff:wght@400..700&family=Marck+Script&family=Pattaya&family=Sonsie+One&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #f8d7da;
+            text-align: center;
+            font-family: 'Marck Script', sans-serif;
+            font-size: 2.5em;
+            background: linear-gradient(270deg, #f0d8e4, #ffe2f1, #ffb2e2);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+                1px 1px 0px rgb(243, 200, 221),
+                -4px -1px 0px white,
+                1px -1px 0px white,
+                -1px 1px 0px rgb(231, 158, 186);  
+        }
+        @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+        }
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: float 5s forwards;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+        .timer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            animation: slideIn 1s forwards;
+            opacity: 0;
+        }
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .time-block {
+            border: 2px solid #ff68b6;
+            background-color: #ffd2ec;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 200px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff68b6;
+            animation: fadeIn 1s forwards;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(219, 30, 125, 0.5);
+        }
+        @keyframes fadeIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            color: white;
+            background-color: #ff68b6;
+            border: none;
+            border-radius: 200px;
+            cursor: pointer;
+            font-family: 'Marck Script', sans-serif;
+            box-shadow: 0 4px 15px rgba(219, 30, 125, 0.5);
+            
+        }
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(219, 30, 125, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="animation: slideIn 1s forwards; opacity: 0; color: #ff50aa;">Мы вместе:</h1>
+    <div class="timer">
+        <div class="time-block" id="months">0 месяцев</div>
+        <div class="time-block" id="days">0 дней</div>
+        <div class="time-block" id="hours">0 часов</div>
+        <div class="time-block" id="minutes">0 минут</div>
+        <div class="time-block" id="seconds">0 секунд</div>
+    </div>
+
+    <button class="button" onclick="window.location.href='page4.html'">Далее</button> 
+    <script>
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            document.body.appendChild(heart);
+
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '0';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+
+            
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        
+        setInterval(createHeart, 200);
+
+        
+        const startDate = new Date("2025-01-08T18:00:00").getTime();
+
+        
+        function updateTimer() {
+            const now = new Date().getTime();
+            const timeDiff = now - startDate;
+
+            
+            const seconds = Math.floor((timeDiff / 1000) % 60);
+            const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+            const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const months = Math.floor(days / 30);
+            const remainingDays = days % 30;
+
+            
+            document.getElementById("months").innerHTML = `${months} месяц`;
+            document.getElementById("days").innerHTML = `${remainingDays} дней`;
+            document.getElementById("hours").innerHTML = `${hours} часов`;
+            document.getElementById("minutes").innerHTML = `${minutes} минут`;
+            document.getElementById("seconds").innerHTML = `${seconds} секунд`;
+        }
+
+        
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
+
+
+
+

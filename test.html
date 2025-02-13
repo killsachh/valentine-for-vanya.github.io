@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сердечки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Marck Script', sans-serif;
+            background: linear-gradient(270deg, #f0d8e4, #ffe2f1, #ffb2e2);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .message {
+            position: absolute;
+            font-size: 6em;
+            color: #ff68b6;
+            text-align: center;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5em;
+            color: #ff68b6;
+        }
+        button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 2em;
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 200px;
+            cursor: pointer;
+            display: none;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="heartCanvas"></canvas>
+    <div class="message" id="message"></div>
+    <div class="footer">Потапай 50 раз</div>
+    <button id="nextPageButton">Далее</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/GLTFLoader.js"></script>
+    
+    <script>
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let clickCount = 0;
+
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.createElement('canvas') });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        let model;
+
+        // Load 3D model
+        const loader = new THREE.GLTFLoader();
+        loader.load('path/to/your/model.glb', function(gltf) {
+            model = gltf.scene;
+            model.position.set(0, -1, 0); // Позиция модели
+            scene.add(model);
+        }, undefined, function(error) {
+            console.error(error);
+        });
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (model) {
+                model.rotation.y += 0.01; // Вращение модели
+            }
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Обработка кликов
+        canvas.addEventListener('click', function(event) {
+            clickCount++;
+            if (clickCount === 50) {
+                document.getElementById('nextPageButton').style.display = 'block'; // Показываем кнопку
+            }
+        });
+
+        // Обработчик события для кнопки перехода на следующую страницу
+        document.getElementById('nextPageButton').onclick = function() {
+            window.location.href = 'page5.html'; // Замените на URL вашей следующей страницы
+        };
+    </script>
+</body>
+</html>

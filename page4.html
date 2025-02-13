@@ -6,19 +6,34 @@
     <title>Сердечки</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=DynaPuff:wght@400..700&family=Marck+Script&family=Pattaya&family=Sonsie+One&display=swap" rel="stylesheet">
+
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8d7da; /* Розовый фон */
             margin: 0;
             position: relative;
             overflow: hidden;
-            font-family: 'Balsamiq Sans', sans-serif;
+            font-family: 'Marck Script', sans-serif;
+            background: linear-gradient(270deg, #f0d8e4, #ffe2f1, #ffb2e2);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+                1px 1px 0px white,
+                -1px -1px 0px white,
+                1px -1px 0px white,
+                -1px 1px 0px white; 
         }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         canvas {
             position: absolute;
             top: 0;
@@ -28,50 +43,140 @@
         }
         .message {
             position: absolute;
-            font-size: 6em; /* Увеличиваем размер шрифта для сообщения */
-            color: #d5006d; /* Цвет текста */
+            font-size: 6em;
+            color: #ff68b6;
             text-align: center;
-            width: 100%; /* Ширина на всю страницу */
-            top: 50%; /* Центрируем по вертикали */
-            left: 50%; /* Центрируем по горизонтали */
-            transform: translate(-50%, -50%); /* Центрируем текст */
-            display: none; /* Скрываем сообщения по умолчанию */
-            opacity: 0; /* Начальная непрозрачность */
-            transition: opacity 1s ease; /* Плавный переход для текста */
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease, transform 2s ease;
+            text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+                1px 1px 0px rgb(243, 200, 221),
+                -4px -1px 0px white,
+                1px -1px 0px white,
+                -1px 1px 0px rgb(231, 158, 186);  
         }
         .footer {
             position: absolute;
-            bottom: 20px; /* Отступ от нижней части */
-            left: 50%; /* Центрируем по горизонтали */
-            transform: translateX(-50%); /* Центрируем текст */
-            font-size: 5em; /* Увеличиваем размер шрифта для нижней надписи */
-            color: #d5006d; /* Цвет текста */
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5em;
+            color: #ff68b6;
+            text-shadow: 0 8px 20px rgba(202, 84, 177, 0.5),
+                1px 1px 0px rgb(243, 200, 221),
+                -4px -1px 0px white,
+                1px -1px 0px white,
+                -1px 1px 0px rgb(231, 158, 186);  
         }
         button {
             position: absolute;
-            bottom: 20px; /* Отступ от нижней части */
-            right: 20px; /* Отступ от правого края */
-            font-size: 2em; /* Размер шрифта для кнопки */
-            padding: 10px 20px; /* Отступы для кнопки */
-            background-color: #ff69b4; /* Цвет кнопки */
-            color: white; /* Цвет текста на кнопке */
-            border: none; /* Убираем рамку */
-            border-radius: 10px; /* Закругленные углы */
-            cursor: pointer; /* Курсор при наведении */
-            transition: background-color 0.3s; /* Плавный переход цвета кнопки */
-            display: none; /* Скрываем кнопку по умолчанию */
+            bottom: 20px;
+            right: 20px;
+            font-size: 2em;
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 200px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: none;
+            font-family: 'Marck Script', sans-serif;
+            box-shadow: 0 4px 15px rgba(219, 30, 125, 0.5);
         }
         button:hover {
-            background-color: #ff1493; /* Темнее розовый при наведении */
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(219, 30, 125, 0.5);
+        }
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: float 5s forwards;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 169, 212);
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+        @keyframes flyIn {
+    0% {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+.message {
+    animation: flyIn 1s ease forwards;
+}
+        .image {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            opacity: 1;
+            display: none;
+            transition: transform 5s ease, opacity 5s ease;
+            
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 1;
+            transition: transform 2s ease, opacity 2s ease;
+        }
+        .small-image {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+            transition: transform 2s ease, opacity 2s ease;
         }
     </style>
 </head>
 <body>
     <canvas id="heartCanvas"></canvas>
     <div class="message" id="message"></div>
-    <div class="footer">Потапай 40 раз ❤️</div> <!-- Надпись внизу страницы -->
+    <div class="footer">Потапай 50 раз, не быстро!</div>
+    <img src="vbucks.png" alt="Image" class="image" id="animatedImage">
     
-    <!-- Кнопка для перехода на следующую страницу -->
+    
     <button id="nextPageButton">Далее</button>
 
     <script>
@@ -83,90 +188,216 @@
         let clickCount = 0;
         const hearts = [];
 
-        // Функция для рисования пустого сердца (только обводка)
+        
         function drawEmptyHeart(x, y, scale) {
-            ctx.strokeStyle = '#d5006d'; // Цвет обводки
-            ctx.lineWidth = 5; // Толщина линии
-            ctx.beginPath();
-            const points = 100; // Количество точек для рисования
 
+            ctx.shadowColor = 'rgba(255, 105, 180, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 7;
+    ctx.shadowOffsetY = 7;
+
+            ctx.strokeStyle = '#ff68b6';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            const points = 100;
             for (let i = 0; i <= points; i++) {
-                const angle = (i / points) * Math.PI * 2; // Угол для каждой точки
+                const angle = (i / points) * Math.PI * 2;
                 const heartX = x + scale * (16 * Math.sin(angle) ** 3);
                 const heartY = y - scale * (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
 
                 if (i === 0) {
-                    ctx.moveTo(heartX, heartY); // Начинаем с первой точки
+                    ctx.moveTo(heartX, heartY);
                 } else {
-                    ctx.lineTo(heartX, heartY); // Рисуем линию к следующей точке
+                    ctx.lineTo(heartX, heartY);
                 }
             }
 
             ctx.closePath();
-            ctx.stroke(); // Рисуем обводку
+            ctx.stroke();
         }
 
-        // Функция для анимации сердечек
+        
         function animateHearts() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Очищаем канвас
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             hearts.forEach((heart, index) => {
-                heart.y -= 2; // Поднимаем сердце
-                heart.alpha -= 0.02; // Уменьшаем прозрачность
+                heart.y -= 2;
+                heart.alpha -= 0.02;
                 drawEmptyHeart(heart.x, heart.y, heart.scale);
                 if (heart.alpha <= 0) {
-                    hearts.splice(index, 1); // Удаляем сердце, если оно исчезло
+                    hearts.splice(index, 1);
                 }
             });
-            requestAnimationFrame(animateHearts); // Запускаем следующую анимацию
+            requestAnimationFrame(animateHearts);
         }
 
-        // Функция для обработки нажатий
+        
         function handleClick(event) {
             clickCount++;
             const x = event.clientX;
             const y = event.clientY;
 
-            hearts.push({ x: x, y: y, scale: 10, alpha: 1 }); // Добавляем новое сердце
+            hearts.push({ x: x, y: y, scale: 10, alpha: 1 });
 
             if (clickCount === 10) {
-                showMessage("I LOVE UUU <3", "#d5006d"); // Темно-розовый цвет
+                showMessage("I LUV U SOOOO MUCH <3", "#ff68b6");
             } else if (clickCount === 20) {
-                showMessage("I LUV U SOOOO MUCH", "#d5006d"); // Темно-розовый цвет
+                showMessage("U ARE THE BEST!!!", "#ff68b6");
             } else if (clickCount === 30) {
-                showMessage("I MISS U =(", "#d5006d"); // Темно-розовый цвет
+                showMessage("AND I MISS U =(", "#ff68b6");
             } else if (clickCount === 40) {
-                showMessage("HAPPY VALENTINE'S DAY SWEETIE", "#d5006d"); // Темно-розовый цвет
-                document.getElementById('nextPageButton').style.display = 'block'; // Показываем кнопку
+                showMessage("HAPPY VALENTINE'S DAY, SWEETIE", "#ff68b6");
+            } else if (clickCount === 50) {
+                showImage();
+                document.getElementById('nextPageButton').style.display = 'block';
             }
         }
 
-        // Функция для отображения сообщения
-        function showMessage(text, color) {
-            const messageElement = document.getElementById('message');
-            messageElement.innerText = text;
-            messageElement.style.color = color; // Устанавливаем цвет текста
-            messageElement.style.display = 'block'; // Показываем сообщение
-            messageElement.style.opacity = 1; // Устанавливаем полную непрозрачность
+        
+function showMessage(text, color) {
+    const messageElement = document.getElementById('message');
+    messageElement.innerText = text;
+    messageElement.style.color = color; 
+    messageElement.style.display = 'block';
+    messageElement.style.opacity = 1;
+    messageElement.style.transform = 'translate(-50%, -60%)'; 
+    messageElement.style.transition = 'transform 1s ease, opacity 1s ease';
 
-            // Рисуем пустое сердце вокруг текста
-            drawEmptyHeart(window.innerWidth / 2, window.innerHeight / 2, 100); // Большое сердце
+    // Анимация вылета текста
+    setTimeout(() => {
+        messageElement.style.transform = 'translate(-50%, -50%)';
+        messageElement.style.transition = 'transform 1s ease';
+    }, 100); 
 
-            // Скрываем сообщение через 3 секунды
+    
+    drawEmptyHeart(window.innerWidth / 2, window.innerHeight / 2, 100);
+
+            
+        
+
+            
             setTimeout(() => {
-                messageElement.style.opacity = 0; // Уменьшаем непрозрачность
+                messageElement.style.opacity = 0;
                 setTimeout(() => {
-                    messageElement.style.display = 'none'; // Скрываем сообщение
-                }, 1000); // Ждем, пока анимация исчезновения завершится
-            }, 3000);
+                    messageElement.style.display = 'none';
+                    messageElement.style.transform = 'translate(-50%, -50%)';
+                }, 2000);
+            }, 4000);
         }
 
-        // Добавляем обработчик события нажатия
-        canvas.addEventListener('click', handleClick);
-        animateHearts(); // Запускаем анимацию сердечек
+        
+function showImage() {
+    const imageElement = document.getElementById('animatedImage');
+    imageElement.style.display = 'block';
+    imageElement.style.opacity = 1;
+    imageElement.style.transition = 'transform 15s ease, opacity 1.5s ease';
 
-        // Обработчик события для кнопки перехода на следующую страницу
+    
+    imageElement.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+
+    
+    setTimeout(() => {
+        imageElement.style.transform = 'translate(-50%, -50%) rotate(1080deg)';
+    }, 100);
+
+    
+    setTimeout(() => {
+        imageElement.style.opacity = 0;
+    }, 2000);
+
+   
+    setTimeout(() => {
+        showMessage("YBYKY2LMBSTJW4WX\n Введи этот код на сайтике фортнайта", "#ff68b6");
+        createConfetti();
+        createSmallImages();
+    }, 2000);
+
+        }
+
+        
+        function createConfetti() {
+            const colors = ['#FF1493', '#FF69B4', '#C71585', '#DB7093', '#FFB6C1'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = Math.random() * window.innerHeight + 'px';
+                confetti.style.transform = `translateY(${Math.random() * 200 + 100}px)`;
+                document.body.appendChild(confetti);
+
+                
+                setTimeout(() => {
+                    confetti.style.transform += ' translateY(200px)';
+                    confetti.style.opacity = 0;
+                }, 1000);
+                
+               
+                confetti.addEventListener('transitionend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        
+function createSmallImages() {
+    const smallImageCount = 50;
+    const imageElement = document.getElementById('animatedImage');
+    const imageRect = imageElement.getBoundingClientRect();
+
+    for (let i = 0; i < smallImageCount; i++) {
+        const smallImage = document.createElement('img');
+        smallImage.src = 'vbucks.png';
+        smallImage.className = 'small-image';
+        smallImage.style.position = 'absolute';
+        smallImage.style.left = (imageRect.left + imageRect.width / 2) + 'px';
+        smallImage.style.top = (imageRect.top + imageRect.height / 2) + 'px';
+        smallImage.style.transform = `translateY(0)`;
+        document.body.appendChild(smallImage);
+
+        
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 2000 + 50;
+        const targetX = Math.cos(angle) * distance;
+        const targetY = Math.sin(angle) * distance;
+
+        setTimeout(() => {
+            smallImage.style.transform = `translate(${targetX}px, ${targetY}px)`;
+            smallImage.style.opacity = 0;
+        }, 100);
+        
+        
+        smallImage.addEventListener('transitionend', () => {
+            smallImage.remove();
+        });
+    }
+}
+
+        
+        function createAnimatedHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            document.body.appendChild(heart);
+
+           
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '0';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+           
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        
+        setInterval(createAnimatedHeart, 200);
+
+        
+        canvas.addEventListener('click', handleClick);
+        animateHearts();
+
+        
         document.getElementById('nextPageButton').onclick = function() {
-            window.location.href = 'nextPage.html'; // Замените на URL вашей следующей страницы
+            window.location.href = 'page5.html';
         };
     </script>
 </body>
