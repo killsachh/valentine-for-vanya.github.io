@@ -46,7 +46,6 @@
         img {
             max-width: 100%; 
             height: auto;
-            width: 600px;
             border-radius: 100px;
             margin: 20px 0;
             display: block;
@@ -127,6 +126,27 @@
                 opacity: 0;
             }
         }
+
+        /* Медиа-запросы для адаптации под мобильные устройства */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em; /* Уменьшение размера заголовка для мобильных устройств */
+            }
+
+            button {
+                font-size: 1.2em; /* Уменьшение размера кнопок для мобильных устройств */
+                padding: 8px 16px; /* Уменьшение отступов для кнопок */
+            }
+
+            .message {
+                font-size: 2em; /* Уменьшение размера сообщения для мобильных устройств */
+            }
+
+            img {
+                width: 90%; /* Увеличение ширины изображения для мобильных устройств */
+                max-width: 100%; /* Максимальная ширина 100% */
+            }
+        }
     </style>
 </head>
 <body>
@@ -134,10 +154,8 @@
     <button id="yes">Да</button>
     <button id="no">Нет</button>
     
-   
     <img src="cat.jpg" alt="Романтическое изображение"> 
     
-
     <div class="message" id="response"></div>
 
     <script>
@@ -145,7 +163,6 @@
         let noButton = document.getElementById('no');
 
         document.getElementById('yes').onclick = function() {
-           
             window.location.href = 'love.html';
         };
 
@@ -153,30 +170,25 @@
             document.getElementById('response').innerText = "попробуй еще раз)))";
             document.getElementById('response').style.display = 'block';
 
-            
             let currentSize = parseFloat(window.getComputedStyle(yesButton, null).getPropertyValue('font-size'));
-            yesButton.style.fontSize = (currentSize + 100) + 'px';
+            yesButton.style.fontSize = (currentSize + 10) + 'px'; // Увеличиваем размер на 10 пикселей
         };
 
-        
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
             document.body.appendChild(heart);
 
-           
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.bottom = '0';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+            heart.style.left = Math.random() * 100 + 'vw'; // Случайная позиция по горизонтали
+            heart.style.bottom = '0'; // Начальная позиция внизу экрана
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Случайная продолжительность анимации
 
-            
             heart.addEventListener('animationend', () => {
-                heart.remove();
+                heart.remove(); // Удаление сердечка после анимации
             });
         }
 
-        
-        setInterval(createHeart, 200);
+        setInterval(createHeart, 200); // Создание сердечек каждые 200 мс
     </script>
 </body>
 </html>
